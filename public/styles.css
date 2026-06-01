@@ -16,6 +16,7 @@
 
 html {
   width: 100%;
+  height: 100%;
   min-height: 100%;
   overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
@@ -28,8 +29,9 @@ html {
 body {
   margin: 0;
   width: 100%;
+  height: 100%;
   min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 100svh;
   overflow-x: hidden;
   background: #fff;
   color: var(--ink);
@@ -49,19 +51,19 @@ button {
   width: 100%;
   max-width: 430px;
   min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 100svh;
   margin: 0 auto;
-  padding: clamp(34px, 6dvh, 64px) clamp(18px, 5vw, 28px) 28px;
+  padding: max(30px, env(safe-area-inset-top)) 20px max(24px, env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
 }
 
 .topbar {
   display: grid;
-  grid-template-columns: 48px 1fr auto;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
   align-items: center;
-  gap: 12px;
-  min-height: 80px;
+  gap: 10px;
+  min-height: 72px;
 }
 
 .icon-btn {
@@ -84,8 +86,9 @@ button {
 .stage {
   display: flex;
   align-items: baseline;
-  gap: 10px;
-  font-size: clamp(24px, 6vw, 32px);
+  gap: 8px;
+  min-width: 0;
+  font-size: 28px;
   font-weight: 700;
   white-space: nowrap;
 }
@@ -102,13 +105,13 @@ button {
 .actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
 }
 
 .mini-btn,
 .answer-btn {
-  width: 68px;
-  height: 68px;
+  width: 62px;
+  height: 62px;
   border-radius: 10px;
   display: grid;
   place-items: center;
@@ -127,13 +130,13 @@ button {
 }
 
 .reset-icon {
-  font-size: 36px;
-  line-height: 28px;
+  font-size: 34px;
+  line-height: 26px;
 }
 
 .bulb {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -145,7 +148,7 @@ button {
 
 .mini-btn small,
 .answer-btn small {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   line-height: 1;
 }
@@ -155,9 +158,9 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: clamp(16px, 3dvh, 28px);
-  padding-top: clamp(34px, 7dvh, 72px);
-  padding-bottom: clamp(22px, 5dvh, 54px);
+  gap: 20px;
+  padding-top: 42px;
+  padding-bottom: 30px;
 }
 
 .message {
@@ -174,15 +177,15 @@ button {
 .tiles {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(10px, 3.2vw, 14px);
+  gap: 12px;
 }
 
 .tile {
   aspect-ratio: 1 / 1;
-  border-radius: clamp(20px, 6vw, 28px);
+  border-radius: 24px;
   background: var(--mint);
   color: #202133;
-  font-size: clamp(54px, 19vw, 86px);
+  font-size: 78px;
   font-weight: 750;
   display: grid;
   place-items: center;
@@ -207,18 +210,18 @@ button {
 
 .tile .expr {
   padding: 10px;
-  font-size: clamp(20px, 6.5vw, 30px);
+  font-size: 28px;
   text-align: center;
   overflow-wrap: anywhere;
 }
 
 .expression {
-  min-height: 44px;
+  min-height: 42px;
   display: grid;
   place-items: center;
   padding: 4px 8px;
   color: #333544;
-  font-size: clamp(24px, 7vw, 34px);
+  font-size: 30px;
   font-weight: 750;
   line-height: 1.2;
   text-align: center;
@@ -228,16 +231,16 @@ button {
 .operators {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: clamp(12px, 4vw, 20px);
-  margin-top: clamp(8px, 2dvh, 20px);
+  gap: 14px;
+  margin-top: 10px;
 }
 
 .operators button {
   aspect-ratio: 1 / 1;
-  border-radius: clamp(12px, 4vw, 16px);
+  border-radius: 14px;
   background: var(--cream);
   color: var(--orange);
-  font-size: clamp(38px, 12vw, 56px);
+  font-size: 48px;
   font-weight: 800;
   box-shadow: 0 8px 18px rgba(255, 91, 40, 0.08);
 }
@@ -280,7 +283,7 @@ dialog button {
 }
 
 .heart {
-  width: min(62vw, 260px);
+  width: min(62vw, 240px);
   aspect-ratio: 1 / 1;
   background: #ff4f74;
   transform: rotate(45deg);
@@ -330,6 +333,13 @@ dialog p {
   line-height: 1.45;
 }
 
+@supports (-webkit-touch-callout: none) {
+  body,
+  .app {
+    min-height: -webkit-fill-available;
+  }
+}
+
 @keyframes pulse {
   0%,
   100% {
@@ -346,18 +356,23 @@ dialog p {
   }
 
   .topbar {
-    grid-template-columns: 36px 1fr auto;
+    grid-template-columns: 38px minmax(0, 1fr) auto;
     gap: 8px;
   }
 
+  .stage {
+    gap: 6px;
+    font-size: 24px;
+  }
+
   .actions {
-    gap: 8px;
+    gap: 6px;
   }
 
   .mini-btn,
   .answer-btn {
-    width: 56px;
-    height: 56px;
+    width: 54px;
+    height: 54px;
   }
 
   .mini-btn small,
@@ -371,6 +386,71 @@ dialog p {
 
   .operators {
     gap: 12px;
+  }
+}
+
+@media (max-width: 375px) {
+  .app {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .topbar {
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    gap: 6px;
+    min-height: 64px;
+  }
+
+  .icon-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .back-btn span {
+    width: 18px;
+    height: 18px;
+    border-left-width: 5px;
+    border-bottom-width: 5px;
+    margin-left: 10px;
+  }
+
+  .stage {
+    gap: 5px;
+    font-size: 23px;
+  }
+
+  .mini-btn,
+  .answer-btn {
+    width: 52px;
+    height: 52px;
+  }
+
+  .mini-btn small,
+  .answer-btn small {
+    font-size: 14px;
+  }
+
+  .bulb {
+    width: 28px;
+    height: 28px;
+  }
+
+  .game-view {
+    padding-top: 28px;
+    gap: 16px;
+  }
+
+  .tile {
+    border-radius: 20px;
+    font-size: 68px;
+  }
+
+  .expression {
+    font-size: 26px;
+  }
+
+  .operators button {
+    font-size: 42px;
   }
 }
 
@@ -390,7 +470,7 @@ dialog p {
 
   .expression {
     min-height: 34px;
-    font-size: clamp(20px, 6vw, 28px);
+    font-size: 26px;
   }
 
   .bottom-actions {
