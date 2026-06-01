@@ -1,0 +1,388 @@
+:root {
+  color-scheme: light;
+  --ink: #222332;
+  --muted: #9a9aa5;
+  --mint: #b9fff2;
+  --mint-active: #93f4e4;
+  --orange: #ff5b28;
+  --cream: #fff5f0;
+  --yellow: #ffc30d;
+  --line: #ececf1;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #fff;
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Microsoft YaHei", sans-serif;
+}
+
+button {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app {
+  width: min(100vw, 430px);
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: clamp(34px, 6dvh, 64px) clamp(18px, 5vw, 28px) 28px;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 80px;
+}
+
+.icon-btn {
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  position: relative;
+}
+
+.back-btn span {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-left: 6px solid var(--ink);
+  border-bottom: 6px solid var(--ink);
+  transform: rotate(45deg);
+  margin-left: 12px;
+}
+
+.stage {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: clamp(24px, 6vw, 32px);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.stage strong {
+  font-size: 1em;
+}
+
+.muted {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.mini-btn,
+.answer-btn {
+  width: 68px;
+  height: 68px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  gap: 0;
+  box-shadow: 0 0 0 2px rgba(30, 31, 44, 0.08);
+}
+
+.mini-btn {
+  background: #fff;
+}
+
+.answer-btn {
+  background: var(--yellow);
+  color: #9d5b00;
+  box-shadow: 0 8px 20px rgba(255, 195, 13, 0.28);
+}
+
+.reset-icon {
+  font-size: 36px;
+  line-height: 28px;
+}
+
+.bulb {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  color: var(--orange);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.mini-btn small,
+.answer-btn small {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.game-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: clamp(16px, 3dvh, 28px);
+  padding-top: clamp(34px, 7dvh, 72px);
+  padding-bottom: clamp(22px, 5dvh, 54px);
+}
+
+.message {
+  min-height: 48px;
+  text-align: center;
+  color: var(--orange);
+  font-size: clamp(16px, 4vw, 18px);
+  font-weight: 700;
+  line-height: 1.35;
+  display: grid;
+  place-items: center;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(10px, 3.2vw, 14px);
+}
+
+.tile {
+  aspect-ratio: 1 / 1;
+  border-radius: clamp(20px, 6vw, 28px);
+  background: var(--mint);
+  color: #202133;
+  font-size: clamp(54px, 19vw, 86px);
+  font-weight: 750;
+  display: grid;
+  place-items: center;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.tile[data-used="true"] {
+  background: #edf0f2;
+  color: #aeb3ba;
+  box-shadow: inset 0 0 0 2px #e2e5e8;
+  pointer-events: none;
+}
+
+.tile.selected {
+  background: var(--mint-active);
+  transform: scale(0.97);
+  box-shadow: inset 0 0 0 5px rgba(21, 161, 137, 0.18);
+}
+
+.tile .expr {
+  padding: 10px;
+  font-size: clamp(20px, 6.5vw, 30px);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.expression {
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 4px 8px;
+  color: #333544;
+  font-size: clamp(24px, 7vw, 34px);
+  font-weight: 750;
+  line-height: 1.2;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.operators {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(12px, 4vw, 20px);
+  margin-top: clamp(8px, 2dvh, 20px);
+}
+
+.operators button {
+  aspect-ratio: 1 / 1;
+  border-radius: clamp(12px, 4vw, 16px);
+  background: var(--cream);
+  color: var(--orange);
+  font-size: clamp(38px, 12vw, 56px);
+  font-weight: 800;
+  box-shadow: 0 8px 18px rgba(255, 91, 40, 0.08);
+}
+
+.operators button.active {
+  background: #ffe0d2;
+  box-shadow: inset 0 0 0 4px rgba(255, 91, 40, 0.18);
+}
+
+.bottom-actions {
+  min-height: 50px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.bottom-actions button,
+.heart-view button,
+dialog button {
+  min-width: 112px;
+  min-height: 44px;
+  border-radius: 10px;
+  background: var(--ink);
+  color: white;
+  font-weight: 700;
+  padding: 0 18px;
+}
+
+.bottom-actions button[hidden] {
+  display: none;
+}
+
+.heart-view {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 42px;
+  padding-bottom: 90px;
+}
+
+.heart {
+  width: min(62vw, 260px);
+  aspect-ratio: 1 / 1;
+  background: #ff4f74;
+  transform: rotate(45deg);
+  position: relative;
+  border-radius: 16px;
+  box-shadow: 0 22px 50px rgba(255, 79, 116, 0.28);
+  animation: pulse 1.15s ease-in-out infinite;
+}
+
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: inherit;
+}
+
+.heart::before {
+  left: -50%;
+}
+
+.heart::after {
+  top: -50%;
+}
+
+dialog {
+  width: min(calc(100vw - 48px), 360px);
+  border: 0;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
+}
+
+dialog::backdrop {
+  background: rgba(20, 22, 30, 0.28);
+}
+
+dialog h2 {
+  margin: 0 0 12px;
+}
+
+dialog p {
+  margin: 0 0 22px;
+  font-size: 20px;
+  line-height: 1.45;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: rotate(45deg) scale(1);
+  }
+  50% {
+    transform: rotate(45deg) scale(1.07);
+  }
+}
+
+@media (max-width: 420px) {
+  .app {
+    padding: max(28px, env(safe-area-inset-top)) 18px max(22px, env(safe-area-inset-bottom));
+  }
+
+  .topbar {
+    grid-template-columns: 36px 1fr auto;
+    gap: 8px;
+  }
+
+  .actions {
+    gap: 8px;
+  }
+
+  .mini-btn,
+  .answer-btn {
+    width: 56px;
+    height: 56px;
+  }
+
+  .mini-btn small,
+  .answer-btn small {
+    font-size: 15px;
+  }
+
+  .tiles {
+    gap: 10px;
+  }
+
+  .operators {
+    gap: 12px;
+  }
+}
+
+@media (max-height: 720px) {
+  .topbar {
+    min-height: 64px;
+  }
+
+  .game-view {
+    padding-top: 18px;
+    gap: 12px;
+  }
+
+  .operators {
+    margin-top: 16px;
+  }
+
+  .expression {
+    min-height: 34px;
+    font-size: clamp(20px, 6vw, 28px);
+  }
+
+  .bottom-actions {
+    min-height: 42px;
+  }
+}

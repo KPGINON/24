@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>24 点闯关</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app" aria-live="polite">
+      <header class="topbar">
+        <button class="icon-btn back-btn" type="button" aria-label="返回">
+          <span></span>
+        </button>
+        <div class="stage">
+          <span>幼儿园</span>
+          <strong id="levelNow">1</strong>
+          <span class="muted">/</span>
+          <span class="muted">100</span>
+        </div>
+        <div class="actions">
+          <button id="resetBtn" class="mini-btn" type="button" aria-label="重来">
+            <span class="reset-icon">↻</span>
+            <small>重来</small>
+          </button>
+          <button id="answerBtn" class="answer-btn" type="button" aria-label="答案">
+            <span class="bulb">Y</span>
+            <small>答案</small>
+          </button>
+        </div>
+      </header>
+
+      <section id="gameView" class="game-view">
+        <div id="message" class="message"></div>
+        <div id="tiles" class="tiles"></div>
+        <div id="expression" class="expression" aria-label="当前算式"></div>
+        <div class="operators" role="group" aria-label="选择运算符">
+          <button data-op="+" type="button">+</button>
+          <button data-op="-" type="button">−</button>
+          <button data-op="*" type="button">×</button>
+          <button data-op="/" type="button">÷</button>
+        </div>
+        <div class="bottom-actions">
+          <button id="undoBtn" type="button">撤销</button>
+          <button id="nextBtn" type="button" hidden>下一关</button>
+        </div>
+      </section>
+
+      <section id="heartView" class="heart-view" hidden>
+        <div class="heart" aria-label="爱心"></div>
+        <button id="heartNextBtn" type="button">继续</button>
+      </section>
+
+      <dialog id="answerDialog">
+        <form method="dialog">
+          <h2>参考答案</h2>
+          <p id="answerText"></p>
+          <button type="submit">知道了</button>
+        </form>
+      </dialog>
+    </main>
+    <script src="/game.js"></script>
+  </body>
+</html>
