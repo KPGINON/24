@@ -3,6 +3,7 @@ const HEART_LEVEL = 52;
 const TARGET = 24;
 const EPS = 1e-9;
 const ANSWER_PASSWORD = "123123";
+const STORAGE_KEY = "math24:lastLevel";
 
 const levelNow = document.querySelector("#levelNow");
 const tilesEl = document.querySelector("#tiles");
@@ -154,6 +155,27 @@ function isHeartLevel() {
   return state.level === HEART_LEVEL;
 }
 
+function clampLevel(level) {
+  return Math.max(1, Math.min(TOTAL_LEVELS, level));
+}
+
+function readSavedLevel() {
+  try {
+    const saved = Number.parseInt(window.localStorage.getItem(STORAGE_KEY), 10);
+    return Number.isFinite(saved) ? clampLevel(saved) : 1;
+  } catch {
+    return 1;
+  }
+}
+
+function saveLevel(level) {
+  try {
+    window.localStorage.setItem(STORAGE_KEY, String(clampLevel(level)));
+  } catch {
+    // Storage can be unavailable in private browsing; gameplay should continue.
+  }
+}
+
 function snapshot() {
   return JSON.stringify({
     items: state.items,
@@ -174,7 +196,8 @@ function restore(snapshotText) {
 }
 
 function loadLevel(level) {
-  state.level = Math.max(1, Math.min(TOTAL_LEVELS, level));
+  state.level = clampLevel(level);
+  saveLevel(state.level);
   state.currentValue = null;
   state.currentExpr = "";
   state.activeId = null;
@@ -359,4 +382,4 @@ document.querySelector(".back-btn").addEventListener("click", () => {
   loadLevel(Math.max(1, state.level - 1));
 });
 
-loadLevel(1);
+loadLevel(readSavedLevel());
