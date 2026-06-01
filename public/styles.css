@@ -52,6 +52,7 @@ button {
   max-width: 430px;
   min-height: 100vh;
   min-height: 100svh;
+  min-height: 100dvh;
   margin: 0 auto;
   padding: max(30px, env(safe-area-inset-top)) 20px max(24px, env(safe-area-inset-bottom));
   display: flex;
@@ -338,13 +339,6 @@ dialog p {
   line-height: 1.45;
 }
 
-@supports (-webkit-touch-callout: none) {
-  body,
-  .app {
-    min-height: -webkit-fill-available;
-  }
-}
-
 @keyframes pulse {
   0%,
   100% {
@@ -481,26 +475,94 @@ dialog p {
 }
 
 @media (max-height: 720px) {
+  .app {
+    padding-top: max(14px, env(safe-area-inset-top));
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+
   .topbar {
-    min-height: 64px;
+    min-height: 58px;
   }
 
   .game-view {
-    padding-top: 14px;
-    gap: 10px;
-    padding-bottom: 10px;
+    padding-top: 6px;
+    gap: 8px;
+    padding-bottom: 0;
+  }
+
+  .message {
+    min-height: 20px;
+    font-size: 15px;
+  }
+
+  .tiles {
+    max-width: min(300px, 43vh);
+    gap: 8px;
   }
 
   .operators {
-    margin-top: 2px;
+    max-width: min(300px, 43vh);
+    margin-top: 0;
+    gap: 8px;
   }
 
   .expression {
-    min-height: 34px;
-    font-size: 26px;
+    min-height: 28px;
+    font-size: 24px;
+    padding-block: 0;
+  }
+
+  .operators button {
+    font-size: 38px;
   }
 
   .bottom-actions {
-    min-height: 42px;
+    min-height: 40px;
+  }
+
+  .bottom-actions button,
+  .heart-view button,
+  dialog button {
+    min-height: 40px;
+  }
+}
+
+@media (max-height: 640px) {
+  .topbar {
+    min-height: 52px;
+  }
+
+  .mini-btn,
+  .answer-btn {
+    width: 48px;
+    height: 48px;
+  }
+
+  .reset-icon {
+    font-size: 30px;
+    line-height: 22px;
+  }
+
+  .bulb {
+    width: 26px;
+    height: 26px;
+  }
+
+  .mini-btn small,
+  .answer-btn small {
+    font-size: 13px;
+  }
+
+  .tiles {
+    max-width: min(286px, 41vh);
+  }
+
+  .tile {
+    border-radius: 18px;
+    font-size: 58px;
+  }
+
+  .operators {
+    max-width: min(286px, 41vh);
   }
 }
