@@ -199,6 +199,7 @@ function loadLevel(level) {
     id: `${Date.now()}-${index}`,
     value: number,
     label: String(number),
+    expr: String(number),
     used: false,
   }));
   render();
@@ -227,8 +228,11 @@ function render() {
   });
 
   undoBtn.disabled = state.history.length === 0;
-  if (unused.length === 0 && !state.selectedOp && state.currentValue !== null) {
-    if (Math.abs(state.currentValue - TARGET) < EPS) {
+  if (unused.length === 1 && !state.selectedOp) {
+    if (Math.abs(unused[0].value - TARGET) < EPS) {
+      state.currentValue = unused[0].value;
+      state.currentExpr = unused[0].expr;
+      expressionEl.textContent = state.currentExpr;
       passLevel();
     } else {
       messageEl.textContent = "";
@@ -244,20 +248,15 @@ function selectTile(id) {
   if (!state.activeId) {
     state.activeId = id;
     state.currentValue = item.value;
-    state.currentExpr = item.label;
+    state.currentExpr = item.expr;
     render();
     return;
   }
 
   if (!state.selectedOp) {
-    const active = state.items.find((entry) => entry.id === state.activeId);
-    if (active && active.used) {
-      messageEl.textContent = "先选择一个运算符";
-      return;
-    }
     state.activeId = id;
     state.currentValue = item.value;
-    state.currentExpr = item.label;
+    state.currentExpr = item.expr;
     render();
     return;
   }
@@ -266,20 +265,26 @@ function selectTile(id) {
 }
 
 function applyOperation(leftId, rightId, op) {
+  const left = state.items.find((item) => item.id === leftId);
   const right = state.items.find((item) => item.id === rightId);
-  if (!right || right.used || leftId === rightId || state.currentValue === null) return;
+  if (!left || !right || left.used || right.used || leftId === rightId) return;
 
-  const value = combine(state.currentValue, right.value, op);
+  const value = combine(left.value, right.value, op);
   if (value === null) {
     messageEl.textContent = "不能除以 0";
     return;
   }
 
   state.history.push(snapshot());
+  const expr = nextExpression(left.expr, op, right.expr);
+  left.used = true;
+  right.value = value;
+  right.label = fmt(value);
+  right.expr = expr;
+  right.used = false;
   state.activeId = right.id;
   state.currentValue = value;
-  state.currentExpr = nextExpression(state.currentExpr, op, right.label);
-  right.used = true;
+  state.currentExpr = expr;
   state.selectedOp = null;
   messageEl.textContent = "";
   render();
@@ -291,8 +296,12 @@ function displayOp(op) {
   return op;
 }
 
-function nextExpression(leftExpr, op, rightLabel) {
-  return `${leftExpr}${displayOp(op)}${rightLabel}`;
+function wrapExpr(expr) {
+  return /[+\-×÷]/.test(expr) ? `(${expr})` : expr;
+}
+
+function nextExpression(leftExpr, op, rightExpr) {
+  return `${wrapExpr(leftExpr)}${displayOp(op)}${wrapExpr(rightExpr)}`;
 }
 
 function passLevel() {
@@ -310,19 +319,8 @@ operatorsEl.addEventListener("click", (event) => {
     return;
   }
   const active = state.items.find((item) => item.id === state.activeId);
-  if (active && active.used) {
-    if (!state.selectedOp) {
-      state.history.push(snapshot());
-    }
-    state.selectedOp = button.dataset.op;
-    messageEl.textContent = "";
-    render();
-    return;
-  }
   if (!active || active.used) return;
-  state.history.push(snapshot());
   state.selectedOp = button.dataset.op;
-  active.used = true;
   messageEl.textContent = "";
   render();
 });
