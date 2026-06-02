@@ -56,7 +56,10 @@ body {
 button {
   border: 0;
   font: inherit;
+  padding: 0;
   cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -205,14 +208,18 @@ button {
 }
 
 .tile {
+  min-width: 0;
   aspect-ratio: 1 / 1;
   border-radius: clamp(16px, 5vw, 28px);
   background: var(--mint);
   color: #202133;
   font-size: clamp(52px, min(15vw, 13dvh), 116px);
   font-weight: 750;
-  display: grid;
-  place-items: center;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   transition:
     transform 0.15s ease,
     background 0.15s ease,
@@ -262,13 +269,24 @@ button {
 }
 
 .operators button {
+  min-width: 0;
+  overflow: visible;
   aspect-ratio: 1 / 1;
   border-radius: clamp(12px, 3vw, 18px);
   background: var(--cream);
   color: var(--orange);
+  font-family: Arial, Helvetica, sans-serif;
   font-size: clamp(36px, min(10vw, 8dvh), 72px);
   font-weight: 800;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 8px 18px rgba(255, 91, 40, 0.08);
+}
+
+.operators button[data-op="/"] {
+  font-size: clamp(34px, min(9vw, 7dvh), 64px);
 }
 
 .operators button.active {
