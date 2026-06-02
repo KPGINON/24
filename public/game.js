@@ -4,6 +4,7 @@ const TARGET = 24;
 const EPS = 1e-9;
 const ANSWER_PASSWORD = "123123";
 const STORAGE_KEY = "math24:lastLevel";
+const START_LEVEL = 1;
 
 const levelNow = document.querySelector("#levelNow");
 const tilesEl = document.querySelector("#tiles");
@@ -177,9 +178,9 @@ function clampLevel(level) {
 function readSavedLevel() {
   try {
     const saved = Number.parseInt(window.localStorage.getItem(STORAGE_KEY), 10);
-    return Number.isFinite(saved) ? clampLevel(saved) : 1;
+    return Number.isFinite(saved) ? clampLevel(saved) : START_LEVEL;
   } catch {
-    return 1;
+    return START_LEVEL;
   }
 }
 
@@ -210,6 +211,11 @@ function restore(snapshotText) {
   state.selectedOp = previous.selectedOp;
 }
 
+function revealHeart() {
+  if (!isHeartLevel() || heartView.hidden) return;
+  heartView.classList.add("revealed");
+}
+
 function loadLevel(level) {
   state.level = clampLevel(level);
   saveLevel(state.level);
@@ -227,11 +233,13 @@ function loadLevel(level) {
   if (isHeartLevel()) {
     gameView.hidden = true;
     heartView.hidden = false;
+    heartView.classList.remove("revealed");
     return;
   }
 
   gameView.hidden = false;
   heartView.hidden = true;
+  heartView.classList.remove("revealed");
   state.puzzle = makePuzzle(state.level);
   state.items = state.puzzle.numbers.map((number, index) => ({
     id: `${Date.now()}-${index}`,
@@ -377,6 +385,7 @@ undoBtn.addEventListener("click", () => {
 
 nextBtn.addEventListener("click", () => loadLevel(state.level + 1));
 heartNextBtn.addEventListener("click", () => loadLevel(state.level + 1));
+heartView.addEventListener("click", revealHeart);
 
 answerBtn.addEventListener("click", () => {
   const password = window.prompt("请输入答案密码");
