@@ -20,6 +20,21 @@ const gameView = document.querySelector("#gameView");
 const heartView = document.querySelector("#heartView");
 const heartNextBtn = document.querySelector("#heartNextBtn");
 
+function syncViewportHeight() {
+  const height = window.visualViewport?.height || window.innerHeight;
+  const rootStyle = document.documentElement.style;
+  rootStyle.setProperty("--app-height", `${height}px`);
+  rootStyle.setProperty("--board-height-default", `${height * 0.5}px`);
+  rootStyle.setProperty("--board-height-compact", `${height * 0.45}px`);
+  rootStyle.setProperty("--board-height-small", `${height * 0.44}px`);
+  rootStyle.setProperty("--board-height-short", `${height * 0.39}px`);
+  rootStyle.setProperty("--board-height-tiny", `${height * 0.37}px`);
+}
+
+syncViewportHeight();
+window.addEventListener("resize", syncViewportHeight);
+window.visualViewport?.addEventListener("resize", syncViewportHeight);
+
 const state = {
   level: 1,
   puzzle: null,

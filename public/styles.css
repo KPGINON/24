@@ -11,7 +11,13 @@
   --page-pad-x: clamp(14px, 4.5vw, 36px);
   --page-pad-top: clamp(14px, 5vh, 36px);
   --page-pad-bottom: clamp(12px, 4vh, 28px);
-  --board-size: min(100%, 56dvh, 64vw, 560px);
+  --app-height: 100svh;
+  --board-height-default: 50svh;
+  --board-height-compact: 45svh;
+  --board-height-small: 44svh;
+  --board-height-short: 39svh;
+  --board-height-tiny: 37svh;
+  --board-size: min(100%, var(--board-height-default), 64vw, 560px);
   --tile-gap: clamp(8px, 2.8vw, 18px);
   --control-size: clamp(48px, 13vw, 72px);
   --topbar-height: clamp(52px, 10dvh, 78px);
@@ -57,9 +63,8 @@ button {
 .app {
   width: 100%;
   max-width: min(100%, 720px);
-  min-height: 100vh;
-  min-height: 100svh;
-  min-height: 100dvh;
+  min-height: var(--app-height);
+  height: var(--app-height);
   margin: 0 auto;
   padding:
     max(var(--page-pad-top), env(safe-area-inset-top))
@@ -165,6 +170,7 @@ button {
 }
 
 .game-view {
+  min-height: 0;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -183,6 +189,10 @@ button {
   line-height: 1.35;
   display: grid;
   place-items: center;
+}
+
+.message:empty {
+  min-height: 0;
 }
 
 .tiles {
@@ -361,7 +371,7 @@ dialog p {
 
 @media (max-width: 420px) {
   :root {
-    --board-size: min(100%, 55dvh, 76vw, 340px);
+    --board-size: min(100%, var(--board-height-compact), 76vw, 340px);
   }
 
   .stage {
@@ -372,7 +382,7 @@ dialog p {
 @media (max-width: 375px) {
   :root {
     --page-pad-x: 14px;
-    --board-size: min(100%, 54dvh, 78vw, 310px);
+    --board-size: min(100%, var(--board-height-small), 78vw, 310px);
   }
 
   .tile {
@@ -392,7 +402,7 @@ dialog p {
   :root {
     --page-pad-top: 14px;
     --page-pad-bottom: 12px;
-    --board-size: min(100%, 43dvh, 380px);
+    --board-size: min(100%, var(--board-height-short), 380px);
     --tile-gap: 8px;
     --topbar-height: 58px;
   }
@@ -419,7 +429,7 @@ dialog p {
 
 @media (max-height: 640px) {
   :root {
-    --board-size: min(100%, 41dvh, 320px);
+    --board-size: min(100%, var(--board-height-tiny), 320px);
     --control-size: 48px;
     --topbar-height: 52px;
   }
